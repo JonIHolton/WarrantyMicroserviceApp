@@ -8,35 +8,37 @@ project-root/
 │       └── java-service-d.yml     # Workflow for Java microservice D
 │
 ├── microservices/                 # Root folder for all microservices
-│   ├── python-service-a/          # Python microservice A
-│   │   ├── venv/                  # Virtual environment for the service
-│   │   ├── app/                   # Application source code
-│   │   ├── tests/                 # Test cases
-│   │   ├── Dockerfile             # Dockerfile for building service container
-│   │   ├── requirements.txt       # Python dependencies for the service
-│   │   └── .env                   # Environment variables
+|   ├── python-services/
+|   │   ├── python-service-a/      # Python microservice A
+|   │   │   ├── venv/              # Virtual environment for the service
+|   │   │   ├── app/               # Application source code
+|   │   │   ├── tests/             # Test cases
+|   │   │   ├── Dockerfile         # Dockerfile for building service container
+|   │   │   ├── requirements.txt   # Python dependencies for the service
+|   │   │   └── .env               # Environment variables
+│   │   |
+│   |   ├── python-service-b/      # Python microservice B
+|   │   │   ├── venv/                  
+|   │   │   ├── app/                   
+|   │   │   ├── tests/                
+|   │   │   ├── Dockerfile             
+|   │   │   ├── requirements.txt       
+|   │   │   └── .env                   
 │   │
-│   ├── python-service-b/          # Python microservice B
-│   │   ├── venv/
-│   │   ├── app/
-│   │   ├── tests/
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── .env
-│   │
-│   ├── java-service-c/            # Java microservice C
-│   │   ├── src/                   # Java source files
-│   │   ├── tests/                 # Test cases
-│   │   ├── Dockerfile             # Dockerfile for service
-│   │   ├── pom.xml                # Maven project file
-│   │   └── .env                   # Environment variables
-│   │
-│   └── java-service-d/            # Another Java microservice
-│       ├── src/
-│       ├── tests/
-│       ├── Dockerfile
-│       ├── pom.xml
-│       └── .env
+│   ├── java-services/            # Java microservice C
+|       ├── java-services-c/
+|       │   ├── src/                   # Java source files
+|       │   ├── tests/                 # Test cases
+|       │   ├── Dockerfile             # Dockerfile for service
+|       │   ├── pom.xml                # Maven project file
+|       │   └── .env                   # Environment variables
+│       |
+|   │   └── java-service-d/            # Another Java microservice
+|   │       ├── src/
+|   │       ├── tests/
+|   │       ├── Dockerfile
+|   │       ├── pom.xml
+|   │       └── .env
 │
 ├── infrastructure/                # Infrastructure configurations
 │   ├── docker-compose.yml         # Docker Compose for local development

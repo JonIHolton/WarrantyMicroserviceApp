@@ -17,10 +17,16 @@ docker run --name claims_RabbitMQ -p 5672:5672 -p 15672:15672 -d rabbitmq:manage
 
 
 <!-- access MongoDB Shell -->
-docker exec -it claims mongo
-docker run -it --rm --network="host" mongo:latest mongosh --host localhost:27017
+<!-- docker run -it --rm --network="host" mongo:latest mongosh --host localhost:27017 -->
+docker exec -it claims_MONGO_DB mongosh
+
+<!-- Docker volume for persistance -->
+docker volume create mongo_data
+docker run --name claims_MONGO_DB -p 27017:27017 -v mongo_data:/data/db -d mongo
 
 
+
+<!-- Master admin -->
 db.createUser({
   user: "ESDfullAdmin", 
   pwd: "kuihdadar", 
@@ -28,6 +34,7 @@ db.createUser({
 })
 
 
+<!-- ClaimDB admin -->
 db.createUser({
   user: "ESDAdmin",
   pwd: "kuihdadar",
@@ -35,4 +42,6 @@ db.createUser({
     { role: "readWrite", db: "mydatabase" }
   ]
 })
+
+
 
