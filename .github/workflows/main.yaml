@@ -1,0 +1,66 @@
+# Do not use this file for production. In the case of production, use
+# github secrets
+name: Validation check for Warranty Validation Service
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'microservices/python_services/warranty_validation_service/**'
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ESD
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install MySQL Client
+      run: sudo apt-get install mysql-client
+
+    - name: Wait for MySQL to start
+      run: |
+        while ! mysqladmin ping -h"127.0.0.1" --silent; do
+            sleep 1
+        done
+
+    - name: Create Table
+      run: |
+        mysql -h 127.0.0.1 -u root --password=root ESD < microservices/python_services/warranty_validation_service/tests/createTable.sql
+
+    - name: Write .env file
+      run: |
+        echo "DB_HOST=docker.host.internal" >> microservices/python_services/warranty_validation_service/.env
+        echo "DB_USER=root" >> microservices/python_services/warranty_validation_service/.env
+        echo "DB_PASSWORD=root" >> microservices/python_services/warranty_validation_service/.env
+        echo "DB_NAME=ESD" >> microservices/python_services/warranty_validation_service/.env
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./microservices/python_services/warranty_validation_service
+        file: ./microservices/python_services/warranty_validation_service/Dockerfile
+        push: false
+        load: true
+        tags: waiwai2233/warranty-validation-service:latest
+
+    - name: Run Docker container
+      run: |
+        docker run -d -p 5000:5000 waiwai2233/warranty-validation-service:latest
