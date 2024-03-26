@@ -10,8 +10,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #without this, every change
 db = SQLAlchemy(app) #initialise a connection to the database
 
 @app.route("/apply",methods=['GET', 'POST'])  
-def index():
-    return render_template("index.html", image_file="images/image1.png")
+def apply():
+    return render_template("apply.html", image_file="images/image1.png")
+
+@app.route("/label",methods=['GET', 'POST'])
+def label():
+    return render_template("label.html", image_file="images/image1.png")
+
+@app.route("/alternative",methods=['GET', 'POST'])
+def alternative():
+    return render_template("alternative.html", image_file="images/image1.png")
 
 if __name__ == "__main__":
     app.run(port = 5000, debug = True)
