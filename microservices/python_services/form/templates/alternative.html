@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Warranty Claim Form</title>
+    <title>Accept Alternative</title>
     <style>
         #header{
             background-image:url("/static/image1.png");
@@ -55,30 +55,31 @@
     <!--Rest of Page-->
     <div class="container-fluid" id="header"> 
         <div>
-            <h1 class="display-2 col text-white">Create Your Shipping Label</h1>
+            <h1 class="display-2 col text-white">Accept/Reject Alternative</h1>
         </div>
         <div>
-            <h6 class="display-9 col-8 text-white fw-lighter">Fill in your address to create your shipping label</h6>
+            <h6 class="display-9 col-8 text-white fw-lighter">Sorry there isn't an exact match for your GPU. We hope to provide an alternative for you.</h6>
             <div class="col"></div>
         </div>
        </div>
     
        <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
-        <form class="row">
+        <form class="row" action="{{ url_for('alternative') }}" method="post" id="myForm">
             <div class="col-md-6 mb-3">
-                <label for="getSerial" class="form-label">Serial Number*</label>
-                <input type="text" class="form-control" id="getSerial" placeholder="16-characters number" required>
+                <label for="getCase" class="form-label">Case Number <span class="asterisk">*</span></label>
+                <input type="text" class="form-control" id="getCase" placeholder="16-characters associated with your case" name="cNum" required>
             </div>
     
             <div class="col-md-6 mb-3">
-                <label for="getReason" class="form-label">Address</label>
-                <input type="text" class="form-control" id="getReason" placeholder="Please provide your address" required>
+                <label for="getEmail" class="form-label">Email <span class="asterisk">*</span></label>
+                <input type="text" class="form-control" id="getEmail" placeholder="Email you submitted" name="email" required>
             </div>
             
             <div class="col-md-12 text-center">
-                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit">Submit</button>
+                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit" href="/alternative/">See Alternative</button>
             </div>
         </form>
        </div>
+       <label id="error" class="text-danger"></label>
 </body>
 </html>
