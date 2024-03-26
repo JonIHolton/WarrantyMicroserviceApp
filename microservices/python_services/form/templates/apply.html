@@ -24,6 +24,10 @@
             width: 50px;
             height: 50px;
         }
+
+        span.asterisk {
+            color: red;
+        }
     </style>
 </head>
 <body> 
@@ -63,20 +67,20 @@
    <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
     <form class="row">
         <div class="col-md-6 mb-3">
-            <label for="getSerial" class="form-label">Serial Number*</label>
+            <label for="getSerial" class="form-label">Serial Number <span class="asterisk">*</span></label>
             <input type="text" class="form-control" id="getSerial" placeholder="16-characters number" required>
         </div>
         <div class="col-md-6 mb-3">
-            <label for="getEmail" class="form-label">Email Address*</label>
+            <label for="getEmail" class="form-label">Email Address <span class="asterisk">*</span></label>
             <input type="email" class="form-control" id="getEmail" placeholder="name@example.com" required>
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="getReason" class="form-label">Reason for Claim*</label>
+            <label for="getReason" class="form-label">Reason for Claim <span class="asterisk">*</span></label>
             <input type="text" class="form-control" id="getReason" placeholder="Please provide your reason" required>
         </div>
         <div class="col-md-6 mb-3">
-            <label for="formFile" class="form-label">Proof of Purchase*</label>
+            <label for="formFile" class="form-label">Proof of Purchase <span class="asterisk">*</span></label>
             <input class="form-control" type="file" id="formFile" required>
             <div id="fileHelp" class="form-text">
                 Up to 20MB
