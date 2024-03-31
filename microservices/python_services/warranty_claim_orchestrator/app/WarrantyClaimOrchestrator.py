@@ -3,10 +3,12 @@ from datetime import datetime, date
 import requests
 import os
 import logging
+from flask_cors import CORS
 
 from modules.WarrantyClaim import WarrantyClaim
 
 app = Flask(__name__)
+CORS(app)
 warranty_request_service_url = os.getenv("WARRANTY_REQUEST_SERVICE") or "http://warranty-request-service:5000"
 warranty_validation_service_url = os.getenv("WARRANTY_VALIDATION_SERVICE") or "http://warranty-validation-service:5000"
 
@@ -35,10 +37,13 @@ def submit_warranty_claim():
     logging.debug(f"Received a warranty claim submission request: {request.json}")
     
     serial_number = request.json['serial_number']
-    claim_date : date = datetime.strptime(request.json['claim_date'], '%Y-%m-%d').date()
+    # claim_date : date = datetime.strptime(request.form.get("claim_date"), '%Y-%m-%d').date()
+    claim_date = datetime.now().date()
     email = request.json['email']
-    picture_of_receipt = request.json['picture_of_receipt']
-    warranty_claim = WarrantyClaim(serial_number, claim_date, email, picture_of_receipt)
+    reason_for_claim = request.json['reason_for_claim']
+    # proof_of_claim = request.json['proof_of_claim']
+    warranty_claim = WarrantyClaim(serial_number, claim_date, email, reason_for_claim)
+    logging.debug(f"Warranty claim: {warranty_claim}")
 
     # Invoke warranty request service to create a warranty record
     logging.debug("Creating warranty claim")

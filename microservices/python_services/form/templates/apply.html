@@ -68,27 +68,27 @@
    </div>
 
    <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
-    <form class="row">
+    <form id="warrantyClaimForm" class="row" method="post" action="http://localhost:5001/warranty-claim-submission" >
         <div class="col-md-6 mb-3">
-            <label for="getSerial" class="form-label">Serial Number <span class="asterisk">*</span></label>
-            <input type="text" class="form-control" id="getSerial" placeholder="16-characters number" required>
+            <label for="serial_number" class="form-label">Serial Number <span class="asterisk">*</span></label>
+            <input type="text" class="form-control" id="serial_number" name="serial_number" placeholder="16-characters number" required>
         </div>
         <div class="col-md-6 mb-3">
-            <label for="getEmail" class="form-label">Email Address <span class="asterisk">*</span></label>
-            <input type="email" class="form-control" id="getEmail" placeholder="name@example.com" required>
+            <label for="email" class="form-label">Email Address <span class="asterisk">*</span></label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
         </div>
 
         <div class="col-md-6 mb-3">
-            <label for="getReason" class="form-label">Reason for Claim <span class="asterisk">*</span></label>
-            <input type="text" class="form-control" id="getReason" placeholder="Please provide your reason" required>
+            <label for="reason_for_claim" class="form-label">Reason for Claim <span class="asterisk">*</span></label>
+            <input type="text" class="form-control" id="reason_for_claim" name="reason_for_claim" placeholder="Please provide your reason" required>
         </div>
-        <div class="col-md-6 mb-3">
-            <label for="formFile" class="form-label">Proof of Purchase <span class="asterisk">*</span></label>
-            <input class="form-control" type="file" id="formFile" required>
+        <!-- <div class="col-md-6 mb-3">
+            <label for="proof_of_claim" class="form-label">Proof of Purchase <span class="asterisk">*</span></label>
+            <input class="form-control" type="file" id="proof_of_claim" required>
             <div id="fileHelp" class="form-text">
                 Up to 20MB
             </div>
-        </div>
+        </div> -->
         <div class="col-md-12 text-center">
             <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit">Submit</button>
         </div>
@@ -126,5 +126,37 @@
         </div>
    </div>
    <label id="error" class="text-danger"></label>
+
+   <script>
+    document.getElementById("warrantyClaimForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent normal form submission
+    
+        const formData = new FormData(this);
+        const jsonData = {};
+        for (const [key, value] of formData.entries()) {
+            jsonData[key] = value;
+        }
+    
+        fetch(this.action, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json', // Indicating we're sending JSON
+            },
+            body: JSON.stringify(jsonData), // Converting JavaScript object to a JSON string
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response here
+            // Example: Display success message or error
+            document.getElementById("response").textContent = JSON.stringify(data, null, 2); // Formats the JSON string for readability
+            // document.getElementById("error").textContent = data.message; // Update this ID to an element that can display the message
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // document.getElementById("error").textContent = "An error occurred.";
+        });
+    });
+    </script>
+    <pre id="response"></pre>
 </body>
 </html>
