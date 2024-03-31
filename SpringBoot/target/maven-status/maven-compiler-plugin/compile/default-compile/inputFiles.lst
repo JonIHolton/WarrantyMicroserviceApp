@@ -1,8 +1,6 @@
-/Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/classes/Request.java
 /Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/ProjectApplication.java
 /Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/DTO/RequestDTO.java
-/Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/ExceptionHandling/UnauthorizedException.java
+/Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/model/Request.java
 /Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/controllers/RequestController.java
 /Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/repository/RequestRepository.java
-/Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/ExceptionHandling/GlobalExceptionHandler.java
 /Users/jonathanholton/Documents/GitHub/ESDKuihDadar/SpringBoot/src/main/java/ewasteless/project/service/RequestService.java

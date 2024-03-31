@@ -18,15 +18,17 @@ import lombok.ToString;
 @AllArgsConstructor
 public class RequestDTO {
 
-    private String unitId;
+    private String unit_Id;
 
-    private String modelId;
+    private String model_Id;
 
-    private String modelType;
+    private String model_Type;
 
-    private String Claimee;
+    private String claimee;
 
     private String email;
+
+    private String description;
     
-    private String Status;
+    private String status;
 }

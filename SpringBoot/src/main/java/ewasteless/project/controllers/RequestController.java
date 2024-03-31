@@ -5,11 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// Correct the import for your Request class
-import ewasteless.project.classes.Request;
-
 import ewasteless.project.service.RequestService;
 import ewasteless.project.DTO.RequestDTO;
+import ewasteless.project.model.Request;
 
 import java.util.List;
 
@@ -24,11 +22,12 @@ public class RequestController {
     public ResponseEntity<String> addRequest(@RequestBody RequestDTO requestDTO) {
         try {
             // Assuming addRequest returns the ID of the newly added request
-            String requestId = Integer.toString(requestService.addRequest(requestDTO.getModelId(),
-                                                         requestDTO.getUnitId(),
-                                                         requestDTO.getModelType(),
+            String requestId = Integer.toString(requestService.addRequest(requestDTO.getModel_Id(),
+                                                         requestDTO.getUnit_Id(),
+                                                         requestDTO.getModel_Type(),
                                                          requestDTO.getClaimee(),
-                                                         requestDTO.getEmail()
+                                                         requestDTO.getEmail(),
+                                                         requestDTO.getDescription()
                                                         ));
 
             return ResponseEntity.ok("Request added with ID: " + requestId);
