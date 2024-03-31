@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 
-@SpringBootApplication(scanBasePackages={"ewasteless.project.Repository"})
+// @SpringBootApplication
+@SpringBootApplication
+
 public class ProjectApplication {
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException {

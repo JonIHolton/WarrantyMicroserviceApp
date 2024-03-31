@@ -1,8 +1,6 @@
-ewasteless/project/Interceptor/WebConfig.class
 ewasteless/project/DTO/RequestDTO.class
 ewasteless/project/repository/RequestRepository.class
 ewasteless/project/classes/Request.class
-ewasteless/project/Interceptor/FirebaseAuthenticationInterceptor.class
 ewasteless/project/service/RequestService.class
 ewasteless/project/ExceptionHandling/GlobalExceptionHandler.class
 ewasteless/project/ExceptionHandling/UnauthorizedException.class

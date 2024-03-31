@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 
+
 @Getter // Lombok annotation to generate getters
 @Setter // Lombok annotation to generate setters
 @NoArgsConstructor // Lombok annotation to generate a no-args constructor
