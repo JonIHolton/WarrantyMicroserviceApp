@@ -1,0 +1,10 @@
+ewasteless/project/Interceptor/WebConfig.class
+ewasteless/project/DTO/RequestDTO.class
+ewasteless/project/Repository/RequestRepository.class
+ewasteless/project/classes/Request.class
+ewasteless/project/Interceptor/FirebaseAuthenticationInterceptor.class
+ewasteless/project/service/RequestService.class
+ewasteless/project/ExceptionHandling/GlobalExceptionHandler.class
+ewasteless/project/ExceptionHandling/UnauthorizedException.class
+ewasteless/project/controllers/RequestController.class
+ewasteless/project/ProjectApplication.class
