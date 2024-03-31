@@ -55,7 +55,7 @@
           </div>
         </div>
       </nav>
-    <!--Rest of Page-->
+    <!-- Header -->
     <div class="container-fluid" id="header"> 
         <div>
             <h1 class="display-2 col text-white">Accept/Reject Alternative</h1>
@@ -65,11 +65,12 @@
             <div class="col"></div>
         </div>
        </div>
+       <!--Rest of Page-->
     
-       <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
-        <form class="row" action="{{ url_for('alternative') }}" method="post" id="myForm">
+       <div class="container px-5 py-4 align-items-center justify-content-center bg-white" id="app">
+        <form class="row" method="post" id="myForm">
             <div class="col-md-6 mb-3">
-                <label for="getCase" class="form-label">Case Number <span class="asterisk">*</span></label>
+                <label for="getCase" class="form-label">Request ID <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="getCase" placeholder="16-characters associated with your case" name="cNum" required>
             </div>
     
@@ -79,10 +80,64 @@
             </div>
             
             <div class="col-md-12 text-center">
-                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit" href="/alternative/">See Alternative</button>
+                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit" @submit.prevent="getAlternative()">See Alternative</button>
             </div>
         </form>
+
+        <div v-if="alternative.length > 0">
+          RequestID: [[alternative[0].requestID]]
+          Email: [[alternative[0].email]]
+          Alternative: [[alternative[0].alternative]]
+        </div>
+        <div v-else>
+          cry
+        </div>
        </div>
+
        <label id="error" class="text-danger"></label>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>  
+      const get_all_URL = "http://localhost:5000/book";
+      const app = Vue.createApp({
+          computed: {
+          },
+          delimiters : ['[[', ']]'],
+          data() {
+              return {
+                  alternative: [],
+                  message: "There is a problem retrieving the necessary data, please try again later. ",
+                  selected: ""
+              };
+          },
+          methods : {
+              getAlternative(){
+                  this.alternative = [{
+                                    "requestID": "1",
+                                    "email": "john.doe@example.com",
+                                    "alternative": "SN1234"
+                                  }];
+                  // const response =
+                  //     fetch(get_all_URL)
+                  //         .then(response => response.json())
+                  //         .then(data => {
+                  //             console.log(response);
+                  //             if (data.code === 404) {
+                  //                 // no requests in db
+                  //                 this.message = data.message;
+                  //             } else {
+                  //                 this.alternative = data;
+                  //             }
+                  //         })
+                  //         .catch(error => {
+                  //             console.log(this.message + error);
+                  //         });
+              }
+          }
+      });
+      
+      const vm = app.mount('#app');
+  </script>
 </body>
 </html>
