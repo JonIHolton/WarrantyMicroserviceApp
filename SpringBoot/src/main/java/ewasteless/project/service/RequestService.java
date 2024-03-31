@@ -4,10 +4,9 @@ package ewasteless.project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import ewasteless.project.Repository.RequestRepository;
 // Model imports
 import ewasteless.project.classes.Request;
+import ewasteless.project.repository.RequestRepository;
 
 // Java imports
 
