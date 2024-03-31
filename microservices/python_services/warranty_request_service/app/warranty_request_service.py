@@ -30,7 +30,7 @@ def submit_claim():
         routing_key=os.getenv("RABBITMQ_QUEUE_NAME"),
         body=str(claim_id)
     )
-    return jsonify({"message": "Claim submitted successfully", "claim_id": str(claim_id)}), 200
+    return jsonify({"message": "Claim submitted successfully", "claim_id": str(claim_id)}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)

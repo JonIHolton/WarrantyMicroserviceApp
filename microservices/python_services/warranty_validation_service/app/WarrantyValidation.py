@@ -1,7 +1,9 @@
 from flask import Flask
+from flask import request
 from DAO.WarrantyDAO import WarrantyDAO
 from datetime import datetime
 from flask import jsonify
+
 
 app = Flask(__name__)
 warrantyDAO = WarrantyDAO()
@@ -9,10 +11,12 @@ warrantyDAO = WarrantyDAO()
 @app.route('/validate/<serial_number>')
 def validate(serial_number):
     warranty = warrantyDAO.get_warranty(serial_number)
+    # claim_timestamp is a timestamp in the format YYYY-MM-DD
+    claim_date = datetime.strptime(request.args.get('claim_timestamp'), '%Y-%m-%d').date()
     if warranty:
-        if warranty.isValid():
+        if warranty.isValid(claim_date):
             # Warranty is valid
-            return jsonify({"message": "Valid warranty", "status": "success"}), 200
+            return jsonify({"message": "Valid warranty", "status": "valid"}), 200
         else:
             # Warranty exists but is expired
             return jsonify({"message": "Expired warranty", "status": "expired"}), 200
