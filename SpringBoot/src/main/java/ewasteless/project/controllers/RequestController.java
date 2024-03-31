@@ -14,7 +14,7 @@ import ewasteless.project.DTO.RequestDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Requests")
+@RequestMapping("/requests")
 public class RequestController {
 
     @Autowired
