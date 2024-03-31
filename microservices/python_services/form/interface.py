@@ -11,10 +11,7 @@ db = SQLAlchemy(app) #initialise a connection to the database
 
 @app.route("/apply",methods=['GET', 'POST'])  
 def apply():
-    if request.method == "POST":
-        return render_template("apply.html")
-    else:
-        return render_template("apply.html")
+    return render_template("apply.html")
 
 @app.route("/label",methods=['GET', 'POST'])
 def label():
@@ -22,33 +19,11 @@ def label():
 
 @app.route("/alternative",methods=['GET', 'POST'])
 def alternative():
-    if request.method == "POST":
-        result = request.form['cNum']
-        return render_template("alternative.html", result = result)
-    else:
-        return render_template("alternative.html")
+    return render_template("alternative.html")
     
-@app.route("/alternative/<string:caseNum>")
-def getCase(caseNum):
-    # book = db.session.scalars(
-    # 	db.select(Book).filter_by(isbn13=isbn13).
-    # 	limit(1)
-    #     ).first()
-
-    # if book:
-    #     return jsonify(
-    #         {
-    #             "code": 200,
-    #             "data": book.json()
-    #         }
-    #     )
-    # return jsonify(
-    #     {
-    #         "code": 404,
-    #         "message": "Book not found."
-    #     }
-    # ), 404
-    return render_template("apply.html")
+@app.route("/requeststatus",methods=['GET', 'POST'])
+def request():
+    return render_template("request.html")
 
 if __name__ == "__main__":
     app.run(port = 5000, debug = True)
