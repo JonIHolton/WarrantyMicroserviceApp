@@ -1,9 +1,12 @@
+from datetime import date
+
 class WarrantyClaim:
-    def __init__(self, serial_number, claim_date, email, picture_of_receipt=None):
-        self.serial_number = serial_number
-        self.claim_date = claim_date
-        self.email = email
-        self.picture_of_receipt = picture_of_receipt
+    def __init__(self, serial_number : str, claim_date : date,
+                 email : str, picture_of_receipt : any=None):
+        self.serial_number : str = serial_number
+        self.claim_date : date = claim_date
+        self.email : str = email
+        self.picture_of_receipt : any = picture_of_receipt
     
     def getSerialNumber(self):
         return self.serial_number

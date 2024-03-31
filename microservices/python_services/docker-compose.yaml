@@ -15,12 +15,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    # healthcheck:
-    #   test: ["CMD-SHELL", "pg_isready -U postgres -d testdb"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
-
 
   warranty-validation-service:
     build:
@@ -30,4 +24,14 @@ services:
       - "5000:5000"
     depends_on:
       - warranty-validation-db
+    restart: always
+
+  warranty-claim-orchestrator:
+    build:
+      context: ./warranty_claim_orchestrator
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    depends_on:
+      - warranty-validation-service
     restart: always
