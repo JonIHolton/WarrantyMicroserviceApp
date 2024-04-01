@@ -34,6 +34,10 @@ public class RequestService {
         return savedRequest.getRequest_Id();
     }
 
+    public void updateRequestStatus(int requestId, String newStatus) {
+        requestRepository.updateStatus(requestId, newStatus);
+    }
+
 
     public Request getRequestById(int requestId) {
         return requestRepository.findById(requestId)

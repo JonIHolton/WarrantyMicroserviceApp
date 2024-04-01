@@ -37,6 +37,16 @@ public class RequestController {
         }
     }
 
+    @PatchMapping("/{requestId}/status")
+    public ResponseEntity<String> updateRequestStatus(@PathVariable int requestId, @RequestBody String newStatus) {
+        try {
+            requestService.updateRequestStatus(requestId, newStatus);
+            return ResponseEntity.ok("Request status updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating request status: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/{requestId}")
     public ResponseEntity<Request> getRequest(@PathVariable int requestId) {
         try {
