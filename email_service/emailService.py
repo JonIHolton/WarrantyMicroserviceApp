@@ -95,6 +95,47 @@ def sendEmail(body):
     KuihDaDar
     </html>"""
 
+    damage_not_covered = f"""<html>
+    Hello,<br><br>
+    We have received your warranty request (ref ID: {request_Id}). We are sorry to inform you that the damages are not covered by the warranty.
+    <br>
+    <br>
+    Regards,
+    <br>
+    KuihDaDar
+    </html>"""
+
+    damage_not_covered = f"""<html>
+    Hello,<br><br>
+    We have received your warranty request (ref ID: {request_Id}). We are sorry to inform you that the damages are not covered by the warranty.
+    <br>
+    <br>
+    Regards,
+    <br>
+    KuihDaDar
+    </html>"""
+
+    not_repairable = f"""<html>
+    Hello,<br><br>
+    We have received your warranty request (ref ID: {request_Id}). Unfortunately the graphic card is not repairable.
+    <br>
+    <br>
+    Regards,
+    <br>
+    KuihDaDar
+    </html>"""
+
+    one_to_one_replacement = f"""<html>
+    Hello,<br><br>
+    We have received your warranty request (ref ID: {request_Id}). Unfortunately the graphic card is not repairable. However we do have a one to one replacement available, and will be sending that to you instead.
+    <br>
+    <br>
+    Regards,
+    <br>
+    KuihDaDar
+    </html>"""
+
+
     if body['status'] == "error":
         message = invalid_warranty_message.format(request_Id=request_Id)
     elif body['status'] == "success":
