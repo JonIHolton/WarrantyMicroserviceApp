@@ -1,6 +1,8 @@
-ewasteless/project/DTO/RequestDTO.class
-ewasteless/project/repository/RequestRepository.class
-ewasteless/project/service/RequestService.class
-ewasteless/project/controllers/RequestController.class
-ewasteless/project/ProjectApplication.class
-ewasteless/project/model/Request.class
+ESD/project/service/RabbitMQPublisher.class
+ESD/project/model/Request.class
+ESD/project/service/RequestService.class
+ESD/project/DTO/RequestDTO.class
+ESD/project/controllers/RequestController.class
+ESD/project/model/RequestStatusUpdateMessage.class
+ESD/project/ProjectApplication.class
+ESD/project/repository/RequestRepository.class
