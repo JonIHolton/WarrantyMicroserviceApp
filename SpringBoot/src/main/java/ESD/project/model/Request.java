@@ -27,7 +27,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generation strategy
     private int request_Id;
 
-    @Column(name = "unit_I")
+    @Column(name = "unit_Id")
     private String unit_Id;
 
     @Column(name = "model_Id")
@@ -48,7 +48,7 @@ public class Request {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "created_timestam")
+    @Column(name = "created_timestamp")
     private LocalDateTime created_timestamp;
 
     public Request(String unit_Id, String model_Id, String model_Type, String claimee, String email, String description) {

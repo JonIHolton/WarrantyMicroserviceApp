@@ -1,5 +1,7 @@
 package ESD.project.model;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,7 @@ import lombok.Setter;
 @Setter // Lombok annotation to generate setters
 @NoArgsConstructor // Lombok annotation to generate a no-args constructor
 @AllArgsConstructor
-public class RequestStatusUpdateMessage {
+public class RequestStatusUpdateMessage implements Serializable {
     private int request_Id;
     private String status;
     private String claimee;
