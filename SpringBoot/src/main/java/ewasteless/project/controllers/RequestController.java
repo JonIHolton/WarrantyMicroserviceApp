@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import ewasteless.project.service.RabbitMQPublisher;
 import ewasteless.project.service.RequestService;
 import ewasteless.project.DTO.RequestDTO;
 import ewasteless.project.model.Request;
@@ -17,6 +18,11 @@ public class RequestController {
 
     @Autowired
     private RequestService requestService;
+
+    @Autowired
+    private RabbitMQPublisher rabbitMQPublisher;
+
+    
 
     @PostMapping
     public ResponseEntity<String> addRequest(@RequestBody RequestDTO requestDTO) {
@@ -37,10 +43,18 @@ public class RequestController {
         }
     }
 
-    @PatchMapping("/{requestId}/status")
-    public ResponseEntity<String> updateRequestStatus(@PathVariable int requestId, @RequestBody String newStatus) {
+    @PostMapping("/{requestId}/status")
+    public ResponseEntity<String> updateRequestStatus(
+        @PathVariable int requestId, 
+        @RequestBody String newStatus,
+        @RequestParam("claimee") String claimee,
+        @RequestParam("email") String email) {
         try {
             requestService.updateRequestStatus(requestId, newStatus);
+            
+            // Publish message to RabbitMQ
+            rabbitMQPublisher.publishRequestStatusUpdate(requestId, newStatus, claimee, email);
+
             return ResponseEntity.ok("Request status updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating request status: " + e.getMessage());
