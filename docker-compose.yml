@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  email_service:
+    build:
+      context: ./path_to_email_service_directory
+    environment:
+      - AMQP_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      - rabbitmq
+
+  payment_service:
+    build:
+      context: ./path_to_payment_service_directory
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql:3306/your_database
+
+  refund_service:
+    build:
+      context: ./path_to_refund_service_directory
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql:3306/your_database
+
+  warranty_management_service:
+    build:
+      context: ./path_to_warranty_management_service_directory
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql:3306/your_database
+
+  financial_records_service:
+    build:
+      context: ./path_to_financial_records_service_directory
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql:3306/your_database
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
