@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import date
 
 class Warranty:
-    def __init__(self, serial_number, start_date, expiry_date):
-        self.serial_number = serial_number
-        self.start_date = start_date
-        self.expiry_date : datetime.date = expiry_date
+    def __init__(self, serial_number : str, start_date : date, expiry_date : date):
+        self.serial_number : str = serial_number
+        self.start_date : date = start_date
+        self.expiry_date : date = expiry_date
         
     def getSerialNumber(self):
         return self.serial_number
@@ -15,7 +15,7 @@ class Warranty:
     def getExpiryDate(self):
         return self.expiry_date
 
-    def isValid(self, claim_date : datetime.date):
+    def isValid(self, claim_date : date):
         return claim_date <= self.expiry_date
     
     def __str__(self):

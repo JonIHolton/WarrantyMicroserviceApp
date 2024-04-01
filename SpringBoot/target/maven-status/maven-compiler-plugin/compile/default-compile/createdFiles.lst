@@ -1,0 +1,6 @@
+ewasteless/project/DTO/RequestDTO.class
+ewasteless/project/repository/RequestRepository.class
+ewasteless/project/service/RequestService.class
+ewasteless/project/controllers/RequestController.class
+ewasteless/project/ProjectApplication.class
+ewasteless/project/model/Request.class
