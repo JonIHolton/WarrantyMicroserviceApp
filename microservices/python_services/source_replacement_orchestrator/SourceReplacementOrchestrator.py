@@ -175,7 +175,7 @@ def handle_replacement_request(requestId):
         status = 'not_repairable_one_to_one_replacement'
         update_request_status(status, requestId, claimee, email) 
         
-        return jsonify
+        return {"status": "success", "message": "Replacement request successfully processed."}
     
     # no 1:1 replacement
     else :
@@ -187,7 +187,7 @@ def handle_replacement_request(requestId):
 
             
             offer_alternative(requestId, model_Id, claimee, email) 
-            return jsonify
+            return {"status": "success", "message": "Alternative replacement offered."}
          
          # no alternative 
          else :
@@ -195,9 +195,9 @@ def handle_replacement_request(requestId):
              status = 'pending_alternative_refund'
              update_request_status(status, requestId, claimee, email) 
             
-             return jsonify       
+             return {"status": "success", "message": "No alternative replacement available. Refund pending."}
         
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=True, port=5000)
