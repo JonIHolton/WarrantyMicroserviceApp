@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS requests;
 USE requests;
 
+DROP TABLE IF EXISTS requests;
+
 CREATE TABLE requests (
     request_Id INT AUTO_INCREMENT PRIMARY KEY,
     unit_Id VARCHAR(255),

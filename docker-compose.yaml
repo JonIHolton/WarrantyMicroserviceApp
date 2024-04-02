@@ -43,6 +43,11 @@ services:
     build:
       context: ./microservices/python_services/warranty_validation_service
       dockerfile: Dockerfile
+    environment:
+      - DB_HOST=warranty-validation-db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=warranty_validation_db
     ports:
       - "5002:5000"
     depends_on:
@@ -58,7 +63,111 @@ services:
     depends_on:
       - warranty-validation-service
     restart: always
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: esd-rabbit
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes: 
+      - ./microservices/python_services/email_service/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - ./microservices/python_services/email_service/rabbitmq_definitions.json:/etc/rabbitmq/rabbitmq_definitions.json
+      
+  email-service:
+    build:
+      context: ./microservices/python_services/email_service
+      dockerfile: Dockerfile
+    image: darrelltwh/email_service:esd
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      e_queue_name: Email
+      su_queue_name: ServiceUpdate
+      shipping_queue_name: Shipping
+      PYTHONUNBUFFERED: 1
+  
+  # shipping
+  inventory-shipping-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: shippingrecord 
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./microservices/python_services/shipping_v2/db/:/docker-entrypoint-initdb.d/ 
+      
+  inventory-service:
+    build:
+      context: ./microservices/python_services/shipping_v2/inventory
+      dockerfile: Dockerfile
+    volumes:
+      - ./microservices/python_services/shipping_v2/inventory:/app
+    ports:
+      - "5003:5002"  
+    command: python server.py
+
+  shipping-service:
+    build:
+      context: ./microservices/python_services/shipping_v2/shipping
+      dockerfile: Dockerfile
+    volumes:
+      - ./microservices/python_services/shipping_v2/shipping:/app
+    ports:
+      - "5004:5001"
+    command: python server.py
+
+  # rabbitmq service for shipping only
+  rabbitmq-service:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    volumes: 
+      - ./microservices/python_services/shipping_v2/rabbitMQ/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - ./microservices/python_services/shipping_v2/rabbitMQ/rabbitmq_definitions.json:/etc/rabbitmq/rabbitmq_definitions.json
+      # - rabbitmq_data:/var/lib/rabbitmq
+  
+  # email service for shipping
+  email-service-shipping:
+    build:
+      context: ./microservices/python_services/shipping_v2/email_service
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - rabbitmq-service
+    environment:
+      rabbit_host: rabbitmq-service
+      rabbit_port: 5672
+      e_queue_name: Email
+      su_queue_name: ServiceUpdate
+      shipping_queue_name: Shipping
+      PYTHONUNBUFFERED: 1
+
+  # frontend
+  ui:
+    build:
+      context: ./microservices/python_services/form
+      dockerfile: Dockerfile
+    ports:
+      - "3000:5000"
+    restart: always
+
+  
   
 
-# volumes:
-#   my_mysql_volume:
+  
+      
+      
+#       # - db-data:/var/lib/mysql
+#       # - rabbitmq_data:/var/lib/rabbitmq
+  
+
+# # volumes:
+# #   my_mysql_volume:
