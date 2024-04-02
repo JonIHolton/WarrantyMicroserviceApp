@@ -95,8 +95,7 @@
                         <div class="modal-body">
                             <div class="form-group col-md-12">
                                 <select id="status" name="status" v-model="selected" class="form-control">
-                                    <option disabled value>Please select one</option>
-                                    <option value='Received'>Received</option>
+                                    <option value='Received' selected>Received</option>
                                     <option value='Not Covered'>Not Covered</option>
                                     <option value='Repaired'>Repaired</option>
                                 </select>
@@ -185,11 +184,11 @@
                             // service offline, etc
                             console.log(this.message + error);
                         });
-            },
-            created () {
+            }
+        },
+        created () {
                 // on Vue instance created, load the requests list
                 this.getAll();
-            }
         }
     });
     

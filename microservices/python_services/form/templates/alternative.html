@@ -27,6 +27,10 @@
         span.asterisk {
             color: red;
         }
+
+        #message {
+          color: red;
+        }
     </style>
 </head>
 <body>
@@ -80,59 +84,68 @@
             </div>
             
             <div class="col-md-12 text-center">
-                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit" @submit.prevent="getAlternative()">See Alternative</button>
+                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" @click="getAlternative()">See Alternative</button>
             </div>
         </form>
 
         <div v-if="alternative.length > 0">
-          RequestID: [[alternative[0].requestID]]
-          Email: [[alternative[0].email]]
-          Alternative: [[alternative[0].alternative]]
+          <div v-for="item in alternative">
+            <div>Request ID: [[item.requestID]]</div>
+            <div>Email: [[item.email]]</div>
+            <div>Alternative: [[item.alternative]]</div>
+          </div>
         </div>
-        <div v-else>
-          cry
+        <div class="text-center" id="message" v-else>
+          [[message]]
         </div>
        </div>
-
-       <label id="error" class="text-danger"></label>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>  
-      const get_all_URL = "http://localhost:5000/book";
+      const get_all_URL = "http://localhost:5001/warranty-claim-submission";
       const app = Vue.createApp({
           computed: {
           },
           delimiters : ['[[', ']]'],
           data() {
               return {
-                  alternative: [],
+                  alternative: [{
+                                    "requestID": "1",
+                                    "email": "john.doe@example.com",
+                                    "alternative": "SN1234"}],
                   message: "There is a problem retrieving the necessary data, please try again later. ",
                   selected: ""
               };
           },
           methods : {
               getAlternative(){
-                  this.alternative = [{
-                                    "requestID": "1",
-                                    "email": "john.doe@example.com",
-                                    "alternative": "SN1234"
-                                  }];
-                  // const response =
-                  //     fetch(get_all_URL)
-                  //         .then(response => response.json())
-                  //         .then(data => {
-                  //             console.log(response);
-                  //             if (data.code === 404) {
-                  //                 // no requests in db
-                  //                 this.message = data.message;
-                  //             } else {
-                  //                 this.alternative = data;
-                  //             }
-                  //         })
-                  //         .catch(error => {
-                  //             console.log(this.message + error);
-                  //         });
+                  const formData = new FormData(this);
+                  const jsonData = {};
+                  for (const [key, value] of formData.entries()) {
+                      jsonData[key] = value;
+                  }
+              
+                  fetch(get_all_URL, {
+                      method: "POST",
+                      headers: {
+                          'Content-Type': 'application/json', // Indicating we're sending JSON
+                      },
+                      body: JSON.stringify(jsonData), // Converting JavaScript object to a JSON string
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      console.log(response);
+                      if (data.code === 404) {
+                          // no requests in db
+                          this.message = data.message;
+                      } else {
+                          this.alternative = data;
+                      }
+                  })
+                  .catch(error => {
+                      console.log(this.message + error);
+                  });
               }
           }
       });
