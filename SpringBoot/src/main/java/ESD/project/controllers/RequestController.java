@@ -55,7 +55,7 @@ public class RequestController {
             
             // Publish message to RabbitMQ
             
-            rabbitMQPublisher.publishRequestStatusUpdate(requestId, newStatus, claimee, email);
+            // rabbitMQPublisher.publishRequestStatusUpdate(requestId, newStatus, claimee, email);
 
 
             return ResponseEntity.ok("Request status updated successfully");

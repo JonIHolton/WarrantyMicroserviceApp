@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  warranty-request-db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: kuih
+      MYSQL_PASSWORD: dadar
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: requests
+    volumes:
+      # - my_mysql_volume:/var/lib/mysql
+      - ./SpringBoot/db/:/docker-entrypoint-initdb.d
+
+  warranty-request-service:
+    build:
+      context: ./SpringBoot/
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - warranty-request-db
+    restart: unless-stopped
+
+  warranty-validation-db:
+    image: mysql:latest
+    volumes:
+      - ./microservices/python_services/warranty_validation_service/db/:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: warranty_validation_db
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  warranty-validation-service:
+    build:
+      context: ./microservices/python_services/warranty_validation_service
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5000"
+    depends_on:
+      - warranty-validation-db
+    restart: always
+
+  warranty-claim-orchestrator:
+    build:
+      context: ./microservices/python_services/warranty_claim_orchestrator
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    depends_on:
+      - warranty-validation-service
+    restart: always
+  
+
+# volumes:
+#   my_mysql_volume:
