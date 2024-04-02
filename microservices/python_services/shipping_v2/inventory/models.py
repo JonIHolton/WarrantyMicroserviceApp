@@ -12,14 +12,14 @@ class GpuModel(Base):
 
     ModelID = Column(INTEGER(11), primary_key=True)
     ModelName = Column(String(255))
-    Manufacturer = Column(String(255))
+    model_Type = Column(String(255))
     InventoryCount = Column(INTEGER(11))
 
     def to_dict(self):
         return {
             'ModelID': self.ModelID,
             'ModelName': self.ModelName,
-            'Manufacturer': self.Manufacturer,
+            'model_Type': self.model_Type,
             'InventoryCount': self.InventoryCount
         }
 

@@ -160,6 +160,35 @@ def handleInventory():
 
     return jsonify(json_response), response.status_code
 
+@app.route("/handleAlternative", methods=['POST'])
+def handleAlternative():
+    data = request.get_json()
+    print(data)
+    
+    request_id = data['cNum']  
+    acceptStatus = data['acceptStatus']  
+    
+    api_url = f"http://warranty-request-service:8080/requests/{request_id}/status"
+    # if  get_os() == "Linux":
+    #     api_url = f"http://inventory-service:5002/api/inventory/model/{model_id}"
+    
+    update_data = {
+        'status': "acceptStatus"
+    }
+    
+    try:
+        response = requests.patch(api_url, json=update_data, headers={"claimee":"", "email": ""})
+        json_response = response.json()
+    except ValueError:
+        return jsonify({'status': 'error', 'message': 'Invalid JSON response received from the remote API'}), 500
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+        print(ex_str)
+        return jsonify({'status': 'error', 'message': f'Failed to communicate with inventory API: {ex_str}'}), 500
+
+    return jsonify(json_response), response.status_code
     
 
 def get_os():
@@ -170,7 +199,6 @@ def get_os():
         return 'Linux'
     else:
         return 'Unknown'
-
 
 
 

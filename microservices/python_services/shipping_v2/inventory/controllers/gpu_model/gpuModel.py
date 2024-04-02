@@ -17,7 +17,7 @@ def list_gpu_models():
     per_page = request.args.get('per_page', 10, type=int)
     query_params = {
         'ModelName': request.args.get('ModelName'),
-        'Manufacturer': request.args.get('Manufacturer'),
+        'model_Type': request.args.get('model_Type'),
     }
     query_params = {k: v for k, v in query_params.items() if v is not None}
 
@@ -44,4 +44,9 @@ def delete_gpu_model(model_id):
 @api_gpu_model.route('/model/<int:model_id>', methods=['GET'])
 def get_model(model_id):
     result, status = GpuModelService.get_model(model_id)
+    return jsonify(result), status
+
+@api_gpu_model.route('/model2/<string:ModelName>', methods=['GET'])
+def get_model2(ModelName):
+    result, status = GpuModelService.get_model2(ModelName)
     return jsonify(result), status

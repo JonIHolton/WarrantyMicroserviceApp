@@ -63,6 +63,14 @@ def create_queues(channel):
     create_email_queue(channel)
     create_su_queue(channel)
     create_shipping_queue(channel)
+    create_offer_alternative_queue(channel)
+    
+# function to create offer alternative queue
+def create_offer_alternative_queue(channel):
+    print('amqp_setup:create offer alternative queue')
+    oa_queue_name = 'OfferAlternative'
+    channel.queue_declare(queue=oa_queue_name, durable=True) # 'durable' makes the queue survive broker restarts
+    channel.queue_bind(exchange=exchangename, queue=oa_queue_name, routing_key='offer.alternative')
     
     
 # function to create email queue

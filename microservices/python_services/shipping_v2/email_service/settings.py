@@ -11,7 +11,7 @@ class Config(object):
     MAIL_USERNAME = 'bababa'
     MAIL_PASSWORD = 'bababa'
     # RabbitMQ Default Configuration
-    RABBITMQ_HOST = 'localhost'
+    RABBITMQ_HOST = 'rabbitmq-service'
     RABBITMQ_QUEUE = 'Email'
     RABBITMQ_WORKING_FLAG = 'Y'
 
@@ -19,10 +19,10 @@ class DevelopmentConfig(Config):
     ENV = 'development'
     DEBUG = True
     # database
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:rootpassword@db:3306/inventory'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:rootpassword@inventory-shipping-db:3306/inventory'
     SQLALCHEMY_ECHO = True
     # RabbitMQ Development Configuration
-    RABBITMQ_HOST = 'localhost'
+    RABBITMQ_HOST = 'rabbitmq-service'
     RABBITMQ_QUEUE = 'Email'
     RABBITMQ_WORKING_FLAG = 'Y'
 
@@ -30,10 +30,10 @@ class StagingConfig(Config):
     ENV = 'staging'
     DEBUG = True
     # database
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:rootpassword@db:3306/inventory'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:rootpassword@inventory-shipping-db:3306/inventory'
     SQLALCHEMY_ECHO = True
     # RabbitMQ Staging Configuration
-    RABBITMQ_HOST = 'localhost'
+    RABBITMQ_HOST = 'rabbitmq-service'
     RABBITMQ_QUEUE = 'Email'
     RABBITMQ_WORKING_FLAG = 'Y'
 
@@ -41,7 +41,7 @@ class ProductionConfig(Config):
     ENV = 'production'
     DEBUG = False
     # database
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:rootpassword@db:3306/inventory'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:rootpassword@inventory-shipping-db:3306/inventory'
     SQLALCHEMY_ECHO = True
     # RabbitMQ Production Configuration
     RABBITMQ_HOST = 'rabbitmq-service'

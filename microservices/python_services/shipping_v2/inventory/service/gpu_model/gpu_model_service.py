@@ -22,14 +22,14 @@ class GpuModelService:
                 query_params = {}
 
             model_name = query_params.get('ModelName', None)
-            manufacturer = query_params.get('Manufacturer', None)
+            model_type = query_params.get('model_Type', None)
 
             query = GpuModel.query
 
             if model_name:
                 query = query.filter(GpuModel.ModelName.like(f"%{model_name}%"))
-            if manufacturer:
-                query = query.filter(GpuModel.Manufacturer.like(f"%{manufacturer}%"))
+            if model_type:
+                query = query.filter(GpuModel.model_Type.like(f"%{model_type}%"))
 
             paginated_models = query.paginate(page=page, per_page=per_page, error_out=False)
             models = paginated_models.items
@@ -86,6 +86,17 @@ class GpuModelService:
     def get_model(model_id):
         try:
             record = GpuModel.query.filter_by(ModelID=model_id).first()
+            if record:
+                record_dict = {column.name: getattr(record, column.name) for column in record.__table__.columns}
+                return {'status': 'success', 'data': record_dict}, 200
+            return {'status': 'error', 'message': 'Record not found.'}, 404
+        except Exception as e:
+            return {'status': 'error', 'message': str(e)}, 500
+        
+    @staticmethod
+    def get_model2(ModelName):
+        try:
+            record = GpuModel.query.filter_by(ModelName=ModelName).first()
             if record:
                 record_dict = {column.name: getattr(record, column.name) for column in record.__table__.columns}
                 return {'status': 'success', 'data': record_dict}, 200

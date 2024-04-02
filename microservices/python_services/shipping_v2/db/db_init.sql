@@ -29,22 +29,20 @@ DROP TABLE IF EXISTS `gpu_model`;
 CREATE TABLE `gpu_model` (
   `ModelID` int(11) NOT NULL AUTO_INCREMENT,
   `ModelName` varchar(255) DEFAULT NULL,
-  `Manufacturer` varchar(255) DEFAULT NULL,
+  `model_Type` varchar(255) DEFAULT NULL,
   `InventoryCount` int(11) DEFAULT NULL,
   PRIMARY KEY (`ModelID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 
-INSERT INTO `gpu_model` VALUES ('1', 'GeForce RTX 3080', 'NVIDIA', '9');
-INSERT INTO `gpu_model` VALUES ('2', 'Radeon RX 6800 XT', 'AMD', '8');
-INSERT INTO `gpu_model` VALUES ('3', 'GeForce RTX 3070', 'NVIDIA', '15');
-INSERT INTO `gpu_model` VALUES ('4', 'Radeon RX 6900 XT', 'AMD', '5');
-INSERT INTO `gpu_model` VALUES ('5', 'GeForce RTX 3060 Ti', 'NVIDIA', '12');
-INSERT INTO `gpu_model` VALUES ('6', 'Radeon RX 6700 XT', 'AMD', '9');
-INSERT INTO `gpu_model` VALUES ('7', 'GeForce RTX 3090', 'NVIDIA', '7');
-INSERT INTO `gpu_model` VALUES ('8', 'Radeon RX 6600 XT', 'AMD', '11');
-INSERT INTO `gpu_model` VALUES ('9', 'GeForce GTX 1660 Super', 'NVIDIA', '14');
-INSERT INTO `gpu_model` VALUES ('10', 'Radeon RX 6900 XT', 'AMD', '5');
+INSERT INTO `gpu_model` VALUES ('1', 'Asus GeForce RTX 3080', '3080', '8');
+INSERT INTO `gpu_model` VALUES ('2', 'Evga GeForce RTX 3080', '6800', '7');
+INSERT INTO `gpu_model` VALUES ('3', 'Asus GeForce RTX 3070', '3070', '14');
+INSERT INTO `gpu_model` VALUES ('4', 'Asus GeForce RTX 3060', '6900', '10');
+INSERT INTO `gpu_model` VALUES ('5', 'Evga GeForce RTX 3060', '3060', '9');
+INSERT INTO `gpu_model` VALUES ('6', 'Asus GeForce RTX 3090', '6700', '7');
+INSERT INTO `gpu_model` VALUES ('7', 'Evga GeForce GTX 1660 Super', '3090', '4');
+
 
 
 DROP TABLE IF EXISTS `gpu`;
