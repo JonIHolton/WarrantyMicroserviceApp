@@ -27,6 +27,10 @@
         span.asterisk {
             color: red;
         }
+
+        #message {
+          color: red;
+        }
     </style>
 </head>
 <body>
@@ -55,7 +59,7 @@
           </div>
         </div>
       </nav>
-    <!--Rest of Page-->
+    <!-- Header -->
     <div class="container-fluid" id="header"> 
         <div>
             <h1 class="display-2 col text-white">Accept/Reject Alternative</h1>
@@ -65,24 +69,116 @@
             <div class="col"></div>
         </div>
        </div>
+       <!--Rest of Page-->
     
-       <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
-        <form class="row" action="{{ url_for('alternative') }}" method="post" id="myForm">
+       <div class="container px-5 py-4 align-items-center justify-content-center bg-white" id="app">
+        <form class="row" method="post" id="myForm">
             <div class="col-md-6 mb-3">
-                <label for="getCase" class="form-label">Case Number <span class="asterisk">*</span></label>
+                <label for="getCase" class="form-label">Request ID <span class="asterisk">*</span></label>
                 <input type="text" class="form-control" id="getCase" placeholder="16-characters associated with your case" name="cNum" required>
             </div>
     
             <div class="col-md-6 mb-3">
-                <label for="getEmail" class="form-label">Email <span class="asterisk">*</span></label>
-                <input type="text" class="form-control" id="getEmail" placeholder="Email you submitted" name="email" required>
+              <div class="form-group col-md-12">
+                <label for="acceptStatus" class="form-label">Do you accept or reject? <span class="asterisk">*</span></label>
+                <select id="acceptStatus" name="acceptStatus" class="form-control">
+                  <option value='Accepted' selected>Accepted</option>
+                  <option value='Rejected'>Rejected</option>
+                </select>
+              </div>
             </div>
             
             <div class="col-md-12 text-center">
-                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit" href="/alternative/">See Alternative</button>
+                <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit">Submit</button>
             </div>
         </form>
+
+        <!-- <div v-if="alternative.length > 0">
+          <div v-for="item in alternative">
+            <div>Request ID: [[item.requestID]]</div>
+            <div>Email: [[item.email]]</div>
+            <div>Alternative: [[item.alternative]]</div>
+          </div>
+        </div>
+        <div class="text-center" id="message" v-else>
+          [[message]]
+        </div> -->
        </div>
-       <label id="error" class="text-danger"></label>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>  
+      // const app = Vue.createApp({
+      //     computed: {
+      //     },
+      //     delimiters : ['[[', ']]'],
+      //     data() {
+      //         return {
+      //             message: "There is a problem retrieving the necessary data, please try again later. ",
+      //             selected: ""
+      //         };
+      //     },
+      //     methods : {
+      //         getAlternative(){
+      //             const formData = new FormData(this);
+      //             const jsonData = {};
+      //             for (const [key, value] of formData.entries()) {
+      //                 jsonData[key] = value;
+      //             }
+              
+      //             fetch("", {
+      //                 method: "POST",
+      //                 headers: {
+      //                     'Content-Type': 'application/json', // Indicating we're sending JSON
+      //                 },
+      //                 body: JSON.stringify(jsonData), // Converting JavaScript object to a JSON string
+      //             })
+      //             .then(response => response.json())
+      //             .then(data => {
+      //                 console.log(response);
+      //                 if (data.code === 404) {
+      //                     // no requests in db
+      //                     this.message = data.message;
+      //                 } else {
+      //                     this.alternative = data;
+      //                 }
+      //             })
+      //             .catch(error => {
+      //                 console.log(this.message + error);
+      //             });
+      //         }
+      //     }
+      // });
+      
+      // const vm = app.mount('#app');
+      document.getElementById("myForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent normal form submission
+    
+        const formData = new FormData(this);
+        const jsonData = {};
+        for (const [key, value] of formData.entries()) {
+            jsonData[key] = value;
+        }
+        //this.action
+        fetch("/handleAlternative", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json', // Indicating we're sending JSON
+            },
+            body: JSON.stringify(jsonData), // Converting JavaScript object to a JSON string
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response here
+            // Example: Display success message or error
+            document.getElementById("response").textContent = JSON.stringify(data, null, 2); // Formats the JSON string for readability
+            // document.getElementById("error").textContent = data.message; // Update this ID to an element that can display the message
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // document.getElementById("error").textContent = "An error occurred.";
+        });
+    });
+  </script>
 </body>
 </html>

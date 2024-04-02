@@ -62,30 +62,483 @@
             <h6 class="display-9 col-8 text-white fw-lighter">Fill in your address to create your shipping label. Your replacement GPU will reach you in a few days' time!</h6>
             <div class="col"></div>
         </div>
-       </div>
+    </div>
     
-       <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
-        <form class="row">
+    <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
+
+    <div class="container px-5 py-4 align-items-center justify-content-center bg-white">
+        <form class="row" id="shippingForm">
             <div class="col-md-6 mb-3">
-                <label for="getCase" class="form-label">Case Number <span class="asterisk">*</span> </label>
-                <input type="text" class="form-control" id="getCase" placeholder="16-characters number" required>
+                <label for="getCase" class="form-label">Case Number <span class="asterisk">*</span></label>
+                <div class="row">
+                  <div class="col-6">
+                    <input type="text" class="form-control" id="getCase" placeholder="16-characters number" required>
+                  </div>
+                  <div class="col-6 admin-field" style="display:none;">
+                    <select id="shippingSelect" class="form-select">
+                      <option selected>Choose a Case Number...</option>
+                    </select>
+                  </div>
+                </div>
             </div>
             
             <div class="col-md-6 mb-3">
                 <label for="getSerial" class="form-label">Serial Number <span class="asterisk">*</span></label>
-                <input type="text" class="form-control" id="getSerial" placeholder="16-characters number" required>
+                <select class="form-control" id="getSerial" required>
+                  <option value="SN00000000000001">SN00000000000001</option>
+                  <option value="SN00000000000002">SN00000000000002</option>
+                  <option value="SN00000000000003">SN00000000000003</option>
+                  <option value="SN00000000000004">SN00000000000004</option>
+                  <option value="SN00000000000005">SN00000000000005</option>
+                  <option value="SN00000000000006">SN00000000000006</option>
+                  <option value="SN00000000000007">SN00000000000007</option>
+                  <option value="SN00000000000008">SN00000000000008</option>
+                  <option value="SN00000000000009">SN00000000000009</option>
+                  <option value="SN00000000000010">SN00000000000010</option>
+                </select>
+            </div>
+    
+            
+            <div class="col-md-6 mb-3">
+                <label for="getInModel" class="form-label">Model</label>
+                <select class="form-control" id="getInModel">
+                  <option value="1">GeForce RTX 3080</option>
+                  <option value="2">Radeon RX 6800 XT</option>
+                  <option value="3">GeForce RTX 3070</option>
+                  <option value="4">Radeon RX 6900 XT</option>
+                  <option value="5">GeForce RTX 3060 Ti</option>
+                  <option value="6">Radeon RX 6700 XT</option>
+                  <option value="7">GeForce RTX 3090</option>
+                  <option value="8">Radeon RX 6600 XT</option>
+                  <option value="9">GeForce GTX 1660 Super</option>
+                  <option value="10">Radeon RX 6900 XT</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="getInBrand" class="form-label">Brand</label>
+              <select class="form-control" id="getInBrand">
+                <option value="1">NVIDIA</option>
+                <option value="2">AMD</option>
+              </select>
+            </div>
+    
+            <div class="col-md-6 mb-3">
+                <label for="getEmail" class="form-label">Email <span class="asterisk">*</span></label>
+                <input type="email" class="form-control" id="getEmail" placeholder="Email" required>
+            </div>
+    
+
+            <div class="col-md-6 mb-3 admin-field" style="display:none;">
+                <label for="getRemarks" class="form-label">Remarks</label>
+                <select class="form-control" id="getRemarks">
+                    <option value="0">returned original</option>
+                    <option value="1">replaced same</option>
+                    <option value="2">replace alternative</option>
+                </select>
+            </div>
+
+            
+    
+            <div class="col-md-12 mb-3">
+                <label for="getAddress" class="form-label">Return Address</label>
+                <input type="text" class="form-control" id="getAddress" placeholder="Please provide your return address">
             </div>
 
             <div class="col-md-12 mb-3">
-                <label for="getAddress" class="form-label">Return Address <span class="asterisk">*</span></label>
-                <input type="text" class="form-control" id="getAddress" placeholder="Please provide your return address" required>
+                <label for="getUserType" class="form-label">User Type</label>
+                <select class="form-control" id="getUserType">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
             </div>
             
             <div class="col-md-12 text-center">
                 <button class="btn btn-secondary fw-light px-5 py-2 rounded-pill" type="submit">Submit</button>
             </div>
         </form>
-       </div>
-       <label id="error" class="text-danger"></label>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded",async function() {
+
+        const dummyData = [
+            {"value": "1", "text": "GeForce RTX 3080"},
+            {"value": "2", "text": "Radeon RX 6800 XT"},
+            {"value": "3", "text": "GeForce RTX 3070"},
+            {"value": "4", "text": "Radeon RX 6900 XT"},
+            {"value": "5", "text": "GeForce RTX 3060 Ti"},
+            {"value": "6", "text": "Radeon RX 6700 XT"},
+            {"value": "7", "text": "GeForce RTX 3090"},
+            {"value": "8", "text": "Radeon RX 6600 XT"},
+            {"value": "9", "text": "GeForce GTX 1660 Super"},
+            {"value": "10", "text": "Radeon RX 6900 XT"}
+        ]
+
+
+        var caseNumber = document.getElementById("getCase");
+        var serialSelect = document.getElementById("getSerial");
+        var modelSelect = document.getElementById("getInModel");
+        var brandSelect = document.getElementById("getInBrand");
+        var remarksSelect = document.getElementById("getRemarks");
+        var emailInput = document.getElementById("getEmail")
+        var addressInput = document.getElementById("getAddress")
+        caseNumber.disabled =  false
+        modelSelect.disabled = true;
+        brandSelect.disabled = true;
+        remarksSelect.disabled = true
+        document.getElementById("getUserType").value = 'user';
+        toggleFields(); 
+
+        var shippingRecords = await getShippingRecordAll()
+        remarksSelect.disabled = false
+        var selectElement = document.getElementById("shippingSelect");
+        shippingRecords.data.forEach(function(record) {
+          var option = new Option(record.CaseID, record.CaseID);
+          selectElement.add(option);
+        });
+
+        selectElement.addEventListener("change", function() {
+          var selectedValue = this.value;
+          var selectedRecord = shippingRecords.data.find(function(record) {
+            return record.CaseID === selectedValue;
+          });
+
+          if (selectedRecord) {
+            caseNumber.value = selectedValue;
+            emailInput.value = selectedRecord.Email;
+            addressInput.value = selectedRecord.ReturnAddress;
+            serialSelect.value = selectedRecord.InSerialNumber;
+            brandSelect.value = selectedRecord.InBrand;
+            modelSelect.value = selectedRecord.InModel;
+          }
+        });
+
+
+        serialSelect.addEventListener("change", function() {
+          switch(serialSelect.value) {
+            case "SN00000000000001":  
+              modelSelect.value = "1"; // GeForce RTX 3080
+              brandSelect.value = "1"; // NVIDIA
+              break;
+            case "SN00000000000002": 
+              modelSelect.value = "2"; //Radeon RX 6800 XT
+              brandSelect.value = "2"; //AMD
+              break;
+            case "SN00000000000003": 
+              modelSelect.value = "3"; 
+              brandSelect.value = "1"; 
+              break;
+            case "SN00000000000004": 
+              modelSelect.value = "4"; 
+              brandSelect.value = "2"; 
+              break;
+            case "SN00000000000005": 
+              modelSelect.value = "5"; 
+              brandSelect.value = "1"; 
+              break;
+            case "SN00000000000006": 
+              modelSelect.value = "6"; 
+              brandSelect.value = "2"; 
+              break;
+            case "SN00000000000007": 
+              modelSelect.value = "7"; 
+              brandSelect.value = "1"; 
+              break;
+            case "SN00000000000008": 
+              modelSelect.value = "8"; 
+              brandSelect.value = "2"; 
+              break;
+            case "SN00000000000009": 
+              modelSelect.value = "9"; 
+              brandSelect.value = "1"; 
+              break;
+            case "SN00000000000010": 
+              modelSelect.value = "10"; 
+              brandSelect.value = "2"; 
+              break;
+          }
+          
+        });
+
+
+        
+
+
+        document.getElementById("getUserType").addEventListener("change", toggleFields);
+
+        function toggleFields() {
+            var userType = document.getElementById("getUserType").value;
+            var adminFields = document.querySelectorAll('.admin-field');
+            var userFields = document.querySelectorAll('.user-field');
+
+            var caseNumber = document.getElementById("getCase");
+        
+            
+            if (userType === 'admin') {
+                caseNumber.value = null
+                document.getElementById("getSerial").value = 'SN00000000000001'
+                document.getElementById("getInModel").value = '1'
+                document.getElementById("getInBrand").value = '1'
+                document.getElementById("getEmail").value = null
+                document.getElementById("getAddress").value =null
+
+                adminFields.forEach(function(field) {
+                    field.style.display = '';
+                });
+                userFields.forEach(function(field) {
+                    field.style.display = 'none';
+                });
+            } else {
+                // caseNumber.value = generateCaseNumber();
+                caseNumber.disabled = false
+                userFields.forEach(function(field) {
+                    field.style.display = '';
+                });
+                adminFields.forEach(function(field) {
+                    field.style.display = 'none';
+                });
+            }
+        }
+
+        function generateCaseNumber() {
+            let prefix = 'C'; 
+            let result = prefix; 
+            let characters = '0123456789'; 
+            let charactersLength = characters.length;
+            for (let i = 0; i < 15; i++) { 
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        document.getElementById("shippingForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+    
+            var formData = new FormData(this);
+    
+            formData.append("caseNumber", document.getElementById("getCase").value);
+            formData.append("serialNumber", document.getElementById("getSerial").value);
+            formData.append("inBrand", document.getElementById("getInBrand").value);
+            formData.append("inModel", document.getElementById("getInModel").value);
+            formData.append("email", document.getElementById("getEmail").value);
+            formData.append("returnAddress", document.getElementById("getAddress").value);
+            if(document.getElementById("getUserType").value == 'user'){
+              formData.append("remarks", '');
+            }else{
+              formData.append("remarks", document.getElementById("getRemarks").value);
+            }
+
+            //if is admin,check the case number exist or not
+            if(document.getElementById("getUserType").value == 'admin'){
+                const case_id = document.getElementById("getCase").value;
+                const shippingRecordData = await getShippingRecord(case_id); 
+                if(!shippingRecordData){
+                  alert('case number not existing')
+                  return
+                }
+                
+            }
+
+
+            //fetch inventory count base on the serial number
+            var inventoryCount = 0
+            try {
+                const modelId = document.getElementById("getInModel").value;
+                const modelData = await getModel(modelId); 
+                inventoryCount= modelData.data.InventoryCount;
+            } catch (error) {
+                console.error("Failed to fetch model data:", error);
+            }
+
+            //  if is admin ,then check the inventory count, 
+            //  user submit the form will not check the inventory count
+            if(document.getElementById("getUserType").value == 'admin'){
+                
+                if(Number(inventoryCount)<1)  {
+                  alert("inventory count is less 1")
+                  return
+                }
+            }
+           
+
+            //submit the form
+            fetch("/submit-label-form", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (!response.status === 200) {
+                    throw new Error('Network response was not ok');
+                }else{
+                  return response.json(); 
+                }
+                
+            })
+            .then(async data => {
+                if(data.status =='error') {
+                  alert("error")
+                  return
+                }
+                //form submit successfully, if is admin ,will send email and handle new inventory count
+                //(update  the gpu_model table InventoryCount field)
+                if(document.getElementById("getUserType").value == 'admin'){
+                  
+                  let theModel = dummyData.find(item => item.value === document.getElementById("getInModel").value)?.text;
+                  let the_html_body = ''
+                  if(document.getElementById("getRemarks").value == 0){
+                    the_html_body = "<html><body><p><strong>Case Number:</strong> "+document.getElementById("getCase").value+" </p><p><strong>Serial Number:</strong> "+document.getElementById("getSerial").value+"</p><p>Hello, we have shipped back your "+theModel+" back to you.</p></body></html>"
+                  }else if(document.getElementById("getRemarks").value == 1){
+                    the_html_body = "<html><body><p><strong>Case Number:</strong> "+document.getElementById("getCase").value+" </p><p><strong>Serial Number:</strong> "+document.getElementById("getSerial").value+"</p><p>Hello, we have shipped out "+theModel+" to you.</p></body></html>"
+                  }else if(document.getElementById("getRemarks").value == 2){
+                    the_html_body = "<html><body><p><strong>Case Number:</strong> "+document.getElementById("getCase").value+" </p><p><strong>Serial Number:</strong> "+document.getElementById("getSerial").value+"</p><p>Hello, we have shipped out "+theModel+" (alternative) to you.</p></body></html>"
+                  }
+
+                  sendMqEmail(
+                    {
+                        "message":{
+                            "sender":"darrell.tan.2022@scis.smu.edu.sg",
+                            "recipient":"weijie.tan.2022@scis.smu.edu.sg",
+                            "subject":"GPU Shipping Notification",
+                            "html_body":the_html_body
+                        }
+                    }
+                  )
+  
+                  //logic control by remarks
+                  if(document.getElementById("getRemarks").value == 0){  
+                    //  equal 0 ,do nothing
+                    console.log('no need reduce the inventory count')
+                    alert("admin operate successfully"); 
+                    return
+                  }else{
+
+                    handleInventory({
+                        'ModelID':document.getElementById("getInModel").value,
+                        'data':{
+                          'InventoryCount':Number(inventoryCount)-1,
+                        }
+                    })
+                  }
+
+                }else if(document.getElementById("getUserType").value == 'user'){
+                  var shippingRecords = null
+                  var shippingRecords = await getShippingRecordAll()
+                  remarksSelect.disabled = false
+                  var selectElement = document.getElementById("shippingSelect");
+                  selectElement.innerHTML = '';
+                  shippingRecords.data.forEach(function(record) {
+                    var option = new Option(record.CaseID, record.CaseID);
+                    selectElement.add(option);
+                  });
+                  alert("user create record successfully"); 
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        });
+
+
+        async function getShippingRecordAll() {
+          try {
+              const response = await fetch('/getShippingRecordAll' , {
+                  method: "GET",
+              });
+
+              if (!response.ok) {
+                  return null
+              }
+
+              const data = await response.json();
+              return data; 
+          } catch (error) {
+              console.error("Error fetching model:", error);
+              throw error; 
+          }
+        }
+
+        async function getShippingRecord(case_id) {
+          try {
+              const response = await fetch('/getShippingRecord/' + case_id, {
+                  method: "GET",
+              });
+
+              if (!response.ok) {
+                  return null
+              }
+
+              const data = await response.json();
+              return data; 
+          } catch (error) {
+              console.error("Error fetching model:", error);
+              throw error; 
+          }
+        }
+
+        function sendMqEmail(data) {
+            fetch("/send-mq-email", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    console.log("send email successfully");
+                } else {
+                  console.log("send email error");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred");
+            });
+        }
+
+        async function getModel(modelId) {
+          try {
+              const response = await fetch('/getModel/' + modelId, {
+                  method: "GET",
+              });
+
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+
+              const data = await response.json();
+              return data; 
+          } catch (error) {
+              console.error("Error fetching model:", error);
+              throw error; 
+          }
+        }
+
+        function handleInventory(data){
+          fetch("/handleInventory", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    alert("admin operate successfully"); 
+                    console.log("handleInventory successfully");
+                } else {
+                    console.log("handleInventory error");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred");
+            });
+        }
+
+    });
+    </script>
+
+    <label id="error" class="text-danger"></label>
 </body>
 </html>
