@@ -6,3 +6,4 @@ ESD/project/controllers/RequestController.class
 ESD/project/model/RequestStatusUpdateMessage.class
 ESD/project/ProjectApplication.class
 ESD/project/repository/RequestRepository.class
+ESD/project/Config/RabbitMQConfig.class
