@@ -75,10 +75,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in requests" :key="item.requestID">
-              <td>[[item.requestID]]</td>
-              <td>[[item.email_address]]</td>
-              <td>[[item.reason_for_claim]]</td>
+            <tr v-for="item in requests" :key="item.request_Id">
+              <td>[[item.request_Id]]</td>
+              <td>[[item.email]]</td>
+              <td>[[item.description]]</td>
               <td>[[item.status]]</td>
               <td><button data-bs-toggle="modal" data-bs-target="#updateModal" type="button"
                 class="btn btn-secondary" @click="updateFields(item)">Press to update</button></td>
@@ -96,9 +96,12 @@
                             <div class="form-group col-md-12">
                                 <select id="status" name="status" v-model="selected" class="form-control">
                                     <option disabled value>Please select one</option>
-                                    <option value='Received'>Received</option>
-                                    <option value='Not Covered'>Not Covered</option>
-                                    <option value='Repaired'>Repaired</option>
+                                    <option value='valid'>Valid</option>
+                                    <option value='expired'>Expired</option>
+                                    <option value='invalid_serial_no'>Invalid Serial</option>
+                                    <option value='damage_not_covered'>Damage not covered</option>
+                                    <option value='repaired'>Repaired</option>
+                                    <option value='not_repairable'>Not Repairable</option>
                                 </select>
                             </div>
                         </div>
@@ -130,54 +133,69 @@
         data() {
             return {
                 requests: [
-                {
-                    "requestID": "SN1234",
-                    "email_address": "john.doe@example.com",
-                    "reason_for_claim": "Product arrived damaged",
-                    "status": "Pending"
-                },
-                {
-                    "requestID": "SN5678",
-                    "email_address": "jane.smith@example.com",
-                    "reason_for_claim": "Wrong item received",
-                    "status": "Pending"
-                },
-                {
-                    "requestID": "SN91011",
-                    "email_address": "alice.wonderland@example.com",
-                    "reason_for_claim": "Item never arrived",
-                    "status": "Pending"
-                }
+                
                 ],
                 message: "There is a problem retrieving requests data, please try again later. ",
                 updated: false,
                 updateSuccessful: false,
                 selected: "",
                 currentRequest: "",
-                item_data: {}
+                item_data: {},
+                email:"",
+                claimee:""
             };
         },
         methods : {
             updateFields(item){
-                this.currentRequest = item.requestID;
+                this.currentRequest = item.request_Id;
+                this.email = item.email;
+                this.claimee = item.claimee;
             },
             updateSure(){
                 this.item_data = {
-                    "requestID": this.currentRequest,
                     "status": this.selected
                 }
+                if (this.selected != "not_repairable") {
+                  fetch("request/"+this.currentRequest, {
+                      method: "PATCH",
+                      headers: {
+                          'Content-Type': 'application/json', // Indicating we're sending JSON
+                          'claimee': this.claimee,
+                          'email': this.email
+                      },
+                      body: 
+                      {
+                        "status": this.selected,
+                      }
+                      // JSON.stringify(this.item_data), // Converting JavaScript object to a JSON string
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      // Handle response here
+                      // Example: Display success message or error
+                      alert("Your request status has been updated successfully!" + JSON.stringify(data, null, 2));
+                      // document.getElementById("response").textContent = JSON.stringify(data, null, 2); // Formats the JSON string for readability
+                      // document.getElementById("error").textContent = data.message; // Update this ID to an element that can display the message
+                  })
+                  .catch(error => {
+                      console.error("Error:", error);
+                      // document.getElementById("error").textContent = "An error occurred.";
+                  });
+                } else {
+
+                };
             },
             getAll(){
                 const response =
-                    fetch(get_all_URL)
+                    fetch("/get_all_requests")
                         .then(response => response.json())
                         .then(data => {
-                            console.log(response);
+                            console.log(data);
                             if (data.code === 404) {
                                 // no requests in db
                                 this.message = data.message;
                             } else {
-                                this.requests = data.data.requests;
+                                this.requests = data;
                             }
                         })
                         .catch(error => {
@@ -185,11 +203,11 @@
                             // service offline, etc
                             console.log(this.message + error);
                         });
-            },
-            created () {
+            }
+        },
+        created () {
                 // on Vue instance created, load the requests list
                 this.getAll();
-            }
         }
     });
     

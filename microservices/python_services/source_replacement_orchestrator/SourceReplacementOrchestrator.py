@@ -91,6 +91,7 @@ def offer_alternative(request_Id, model_Id, claimee, email) :
         "email" : email
     } 
 
+    app.logger.info("Message drafted. Sending to offer.alternative queue.")
     
 
     message = json.dumps(message)
@@ -166,11 +167,15 @@ def handle_replacement_request(requestId):
    
     # checks inventory service for a 1:1 replacement
     replacement_status = check_inventory_for_identical_replacement(model_Id)
+    
+    app.logger.info(replacement_status)
 
     
 
     # if have
     if replacement_status["available"] == True:
+        
+        app.logger.info("1:1 replacement available")
 
         status = 'not_repairable_one_to_one_replacement'
         update_request_status(status, requestId, claimee, email) 
@@ -179,11 +184,16 @@ def handle_replacement_request(requestId):
     
     # no 1:1 replacement
     else :
-    
+        
+         app.logger.info("1:1 replacement NOT available")
         # check for alternative
          alternative_status = check_inventory_for_alternative(model_Type, model_Id)
+         
+         app.logger.info(alternative_status)
         
          if alternative_status != "no alternative" :
+             
+            app.logger.info("there is an alternative")
 
             
             offer_alternative(requestId, model_Id, claimee, email) 
@@ -191,7 +201,7 @@ def handle_replacement_request(requestId):
          
          # no alternative 
          else :
-             
+             app.logger.info("there is NO alternative")
              status = 'pending_alternative_refund'
              update_request_status(status, requestId, claimee, email) 
             
