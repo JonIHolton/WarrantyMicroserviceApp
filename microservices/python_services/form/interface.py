@@ -40,12 +40,18 @@ def get_all_requests():
     
 @app.route("/request/<int:request_Id>", methods=["PATCH"])
 def update_request(request_Id):
-    status = request['status']
+    data = request.get_json()
+    status = data['status']
     email = request.headers['email']
     claimee = request.headers['claimee']
+    headers = {
+        'Content-Type': 'text/plain',  # Since we're sending a plain string
+        'claimee': claimee,
+        'email': email
+    }
     api_url = f"http://warranty-request-service:8080/requests/{request_Id}/status"
     try:
-        response = requests.patch(api_url, data=status, headers={"claimee":claimee, "email": email})
+        response = requests.patch(api_url, data=status, headers=headers)
         json_response = response.json()
     except ValueError:
         return jsonify({'status': 'error', 'message': 'Invalid JSON response received from the remote API'}), 500

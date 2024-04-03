@@ -119,7 +119,6 @@
         <div class="text-center text-danger" v-else>
           [[message]]
         </div>
-        [[item_data]]
     </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
@@ -164,16 +163,16 @@
                           'email': this.email
                       },
                       body: 
-                      {
-                        "status": this.selected,
-                      }
+                      JSON.stringify({
+                            "status": this.selected,
+                        })
                       // JSON.stringify(this.item_data), // Converting JavaScript object to a JSON string
                   })
                   .then(response => response.json())
                   .then(data => {
                       // Handle response here
                       // Example: Display success message or error
-                      alert("Your request status has been updated successfully!" + JSON.stringify(data, null, 2));
+                      alert("Your request status has been updated successfully!");
                       // document.getElementById("response").textContent = JSON.stringify(data, null, 2); // Formats the JSON string for readability
                       // document.getElementById("error").textContent = data.message; // Update this ID to an element that can display the message
                   })
