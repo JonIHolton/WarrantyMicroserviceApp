@@ -5,6 +5,12 @@ from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import requests
 
+import logging
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
 app = Flask(__name__, static_url_path='/static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/book'
@@ -52,6 +58,47 @@ def update_request(request_Id):
     api_url = f"http://warranty-request-service:8080/requests/{request_Id}/status"
     try:
         response = requests.patch(api_url, data=status, headers=headers)
+        json_response = response.json()
+    except ValueError:
+        return jsonify({'status': 'error', 'message': 'Invalid JSON response received from the remote API'}), 500
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+        print(ex_str)
+        return jsonify({'status': 'error', 'message': 'Failed to communicate with place_order API: ' + ex_str}), 500
+
+    return jsonify(json_response), response.status_code
+
+@app.route("/request1/<int:request_Id>", methods=["POST"])
+def update_request_not_repairable(request_Id):
+    # data = request.get_json()
+    
+    app.logger.info("Interface hit")
+    app.logger.info(request.headers)
+    
+    claimee = request.headers['claimee']
+    email = request.headers['email']
+    modelId = request.headers['modelId']
+    modelType = request.headers['modelType']
+    # data = request.get_json()  # Get JSON data from the request body
+    # status = data.get('status')  # Extract 'status' from JSON data
+    # Now you can use the extracted data as needed
+
+    headers = {
+        # 'Content-Type': 'application/json',
+        'claimee': claimee,
+        'email': email,
+        'modelId': modelId,
+        'modelType': modelType
+    }
+    
+    # return headers
+    
+    app.logger.info(headers)
+    api_url = f"http://warranty-request-service:8080/requests/{request_Id}/status/notRepairable"
+    try:
+        response = requests.post(api_url, data="", headers=headers)
         json_response = response.json()
     except ValueError:
         return jsonify({'status': 'error', 'message': 'Invalid JSON response received from the remote API'}), 500

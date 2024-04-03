@@ -96,9 +96,9 @@
                             <div class="form-group col-md-12">
                                 <select id="status" name="status" v-model="selected" class="form-control">
                                     <option disabled value>Please select one</option>
-                                    <option value='valid'>Valid</option>
+                                    <!-- <option value='valid'>Valid</option>
                                     <option value='expired'>Expired</option>
-                                    <option value='invalid_serial_no'>Invalid Serial</option>
+                                    <option value='invalid_serial_no'>Invalid Serial</option> -->
                                     <option value='damage_not_covered'>Damage not covered</option>
                                     <option value='repaired'>Repaired</option>
                                     <option value='not_repairable'>Not Repairable</option>
@@ -141,7 +141,9 @@
                 currentRequest: "",
                 item_data: {},
                 email:"",
-                claimee:""
+                claimee:"",
+                model_Id:"",
+                model_Type:""
             };
         },
         methods : {
@@ -149,6 +151,8 @@
                 this.currentRequest = item.request_Id;
                 this.email = item.email;
                 this.claimee = item.claimee;
+                this.model_Id = item.model_Id;
+                this.model_Type = item.model_Type;
             },
             updateSure(){
                 this.item_data = {
@@ -181,7 +185,29 @@
                       // document.getElementById("error").textContent = "An error occurred.";
                   });
                 } else {
-
+                  // fetch("/request/nonRepair/"+this.currentRequest, {
+                    fetch("request1/"+this.currentRequest, {
+                      method: "POST",
+                      headers: {
+                          'claimee': this.claimee,
+                          'email': this.email,
+                          'modelId': this.model_Id, // Ensure this matches the header name used in the backend
+                          'modelType': this.model_Type
+                      },
+                      body: JSON.stringify({
+                          "status": this.selected,
+                      })
+               
+                      // JSON.stringify(this.item_data), // Converting JavaScript object to a JSON string
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      // Handle response here
+                      alert("Your request status has been updated successfully!");
+                  })
+                  .catch(error => {
+                      console.error("Error:", error);
+                  });
                 };
             },
             getAll(){
