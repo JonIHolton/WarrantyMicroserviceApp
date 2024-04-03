@@ -173,12 +173,11 @@ def handleAlternative():
     #     api_url = f"http://inventory-service:5002/api/inventory/model/{model_id}"
     
     update_data = {
-        'status': "acceptStatus"
+        "status": acceptStatus
     }
     
     try:
         response = requests.patch(api_url, json=update_data, headers={"claimee":"", "email": ""})
-        json_response = response.json()
     except ValueError:
         return jsonify({'status': 'error', 'message': 'Invalid JSON response received from the remote API'}), 500
     except Exception as e:
@@ -188,7 +187,7 @@ def handleAlternative():
         print(ex_str)
         return jsonify({'status': 'error', 'message': f'Failed to communicate with inventory API: {ex_str}'}), 500
 
-    return jsonify(json_response), response.status_code
+    return {"message": response.text}, response.status_code
     
 
 def get_os():
