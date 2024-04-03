@@ -23,12 +23,12 @@ class EmailService:
             client = PostmarkClient(server_token=token)
 
             # Send the email
-            # client.emails.send(
-            #     From=sender_email,
-            #     To=recipient,
-            #     Subject=email_subject,
-            #     HtmlBody=email_html_body,
-            # )
+            client.emails.send(
+                From=sender_email,
+                To=recipient,
+                Subject=email_subject,
+                HtmlBody=email_html_body,
+            )
 
             print("Email sent successfully!")
         except Exception as e:

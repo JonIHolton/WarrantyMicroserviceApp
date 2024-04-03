@@ -40,7 +40,7 @@ def callback(channel, method, properties, body): # required signature for the ca
     print("==============================")
     print(body)
     print("==============================")
-    # sendEmail(json.loads(body))
+    sendEmail(json.loads(body))
     print()
 
 def callback2(channel, method, properties, body): # required signature for the callback; no return
