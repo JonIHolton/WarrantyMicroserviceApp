@@ -42,6 +42,9 @@ INSERT INTO `gpu_model` VALUES ('4', 'Asus GeForce RTX 3060', '6900', '10');
 INSERT INTO `gpu_model` VALUES ('5', 'Evga GeForce RTX 3060', '3060', '9');
 INSERT INTO `gpu_model` VALUES ('6', 'Asus GeForce RTX 3090', '6700', '7');
 INSERT INTO `gpu_model` VALUES ('7', 'Evga GeForce GTX 1660 Super', '3090', '4');
+INSERT INTO `gpu_model` VALUES ('8', 'Evga GeForce GTX 4080', '4080', '0');
+INSERT INTO `gpu_model` VALUES ('9', 'MSI GeForce GTX RTX 3080', '3080', '4');
+INSERT INTO `gpu_model` VALUES ('10', 'Zotac GeForce GTX RTX 3080', '3080', '0');
 
 
 

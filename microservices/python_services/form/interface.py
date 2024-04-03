@@ -25,9 +25,44 @@ def label():
 def alternative():
     return render_template("alternative.html")
     
-# @app.route("/requeststatus",methods=['GET', 'POST'])
-# def request():
-#     return render_template("request.html")
+@app.route("/requeststatus",methods=['GET', 'POST'])
+def request_status():
+    return render_template("request.html")
+
+@app.route("/get_all_requests", methods=["GET"])
+def get_all_requests():
+    api_url = "http://warranty-request-service:8080/requests/all"
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        return jsonify(response.json()), 200
+    else:
+        return jsonify({'error': 'Failed to fetch ship record data'}), response.status_code
+    
+@app.route("/request/<int:request_Id>", methods=["PATCH"])
+def update_request(request_Id):
+    data = request.get_json()
+    status = data['status']
+    email = request.headers['email']
+    claimee = request.headers['claimee']
+    headers = {
+        'Content-Type': 'text/plain',  # Since we're sending a plain string
+        'claimee': claimee,
+        'email': email
+    }
+    api_url = f"http://warranty-request-service:8080/requests/{request_Id}/status"
+    try:
+        response = requests.patch(api_url, data=status, headers=headers)
+        json_response = response.json()
+    except ValueError:
+        return jsonify({'status': 'error', 'message': 'Invalid JSON response received from the remote API'}), 500
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+        print(ex_str)
+        return jsonify({'status': 'error', 'message': 'Failed to communicate with place_order API: ' + ex_str}), 500
+
+    return jsonify(json_response), response.status_code
 
 @app.route("/send-warranty-claim", methods=['POST'])
 def send_warranty_claim():
