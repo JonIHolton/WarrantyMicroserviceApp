@@ -37,7 +37,7 @@ def request_status():
 
 @app.route("/get_all_requests", methods=["GET"])
 def get_all_requests():
-    api_url = "http://warranty-request-service:8080/requests/all"
+    api_url = "http://localhost:8080/requests/all"
     response = requests.get(api_url)
     if response.status_code == 200:
         return jsonify(response.json()), 200
@@ -96,7 +96,7 @@ def update_request_not_repairable(request_Id):
     # return headers
     
     app.logger.info(headers)
-    api_url = f"http://warranty-request-service:8080/requests/{request_Id}/status/notRepairable"
+    api_url = f"http://127.0.0.1:5001/requests/{request_Id}/status/notRepairable"
     try:
         response = requests.post(api_url, data="", headers=headers)
         json_response = response.json()
@@ -284,7 +284,7 @@ def get_os():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5002)
 
 
 # if __name__ == "__main__":
