@@ -1,5 +1,7 @@
 # ESDKuihDadar
 
+Refer to [Project Documentation](./docs/ESD_Project_G6T6_Report_GPU_Warranty_Claims_Process.pdf).
+
 ## Notes:
 Ensure no port conflicts with docker containers
 
